@@ -55,33 +55,29 @@ const int N = 10004;
 
 int m;
 
-bool vis[2 * N];
 
-int bfs(int u) {
-	queue<int> q;
-	q.push(u); vis[u] = true;
-	int level = 0;
-	while (q.size()) {
-		int sz = q.size();
-		while (sz--) {
-			int node = q.front(); q.pop();
-			if (node == m) { return level; }
-			if (node < m && !vis[2 * node]) {
-				vis[2 * node] = true;
-				q.push(2 * node);
-			}
-			if (1 < node && !vis[node - 1]) {
-				vis[node - 1] = true;
-				q.push(node - 1);
-			}
-		}
-		++level;
-	}
-}
+
+
+int a[N];
+
+int suff[N];
+
+bool vis[N];
 
 int main() {
 	fastIO();
-	int n; cin >> n >> m;
-	cout << bfs(n) << endl;
+	int n, m; cin >> n >> m;
+	for (int i = 0; i < n; ++i) {
+		cin >> a[i];
+	}
+	// ~i is equivalent to i != -1
+	for (int i = n - 1; ~i; --i) {
+		suff[i + 1] = suff[i + 2] + !vis[a[i]];
+		vis[a[i]] = true;
+	}
+	while (m--) {
+		int l; cin >> l;
+		cout << suff[l] << '\n';
+	}
 	return 0;
 }
